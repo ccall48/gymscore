@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+{% block title %} {{ title }} {% endblock title %}
+{% block body %}
+<h3>Athletes Roster</h3>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Level</th>
+      <th scope="col">Name</th>
+      <th scope="col">Club</th>
+    </tr>
+  </thead>
+  <tbody>
+  {% for athlete in athletes %}
+    <tr>
+      <th>{{ athlete.level }}</th>
+      <td>{{ athlete.last_name }}, {{ athlete.first_name }}</td>
+      <td>{{ athlete.club_id }}</td>
+   </tr>
+  {% endfor %}
+</tbody>
+</table>
+
+{% endblock body %}

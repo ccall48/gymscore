@@ -1,0 +1,4 @@
+{
+    "secret_key": "super secret key here for production",
+    "domain": "https://example.com"
+}

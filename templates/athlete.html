@@ -1,0 +1,110 @@
+{% extends 'base.html' %}
+{% block title %} {{ title }} {% endblock title %}
+{% block body %}
+
+<h2 class="text-primary">{{ result.id }} | {{ result.first_name }} {{ result.last_name }}</h2>
+<h4>Vault</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Score 1</th>
+      <th scope="col">Score 2</th>
+      <th scope="col">Score 3</th>
+      <th scope="col">Score 4</th>
+      <th scope="col">Score 5</th>
+      <th scope="col">TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    {% for event in events %}
+      <td>{{ event.vault_1 }}</td>
+      <td>{{ event.vault_2 }}</td>
+      <td>{{ event.vault_3 }}</td>
+      <td>{{ event.vault_4 }}</td>
+      <td>{{ event.vault_5 }}</td>
+      <td>{{ event.vault_1 + event.vault_2 + event.vault_3 + event.vault_4 + event.vault_5 }}</td>
+    {% endfor %}
+    </tr>
+</tbody>
+</table>
+
+<h4>Bars</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Score 1</th>
+      <th scope="col">Score 2</th>
+      <th scope="col">Score 3</th>
+      <th scope="col">Score 4</th>
+      <th scope="col">Score 5</th>
+      <th scope="col">TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    {% for event in events %}
+      <td>{{ event.bars_1 }}</td>
+      <td>{{ event.bars_2 }}</td>
+      <td>{{ event.bars_3 }}</td>
+      <td>{{ event.bars_4 }}</td>
+      <td>{{ event.bars_5 }}</td>
+      <td>{{ event.bars_1 + event.bars_2 + event.bars_3 + event.bars_4 + event.bars_5 }}</td>
+    {% endfor %}
+    </tr>
+</tbody>
+</table>
+
+<h4>Beam</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Score 1</th>
+      <th scope="col">Score 2</th>
+      <th scope="col">Score 3</th>
+      <th scope="col">Score 4</th>
+      <th scope="col">Score 5</th>
+      <th scope="col">TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    {% for event in events %}
+      <td>{{ event.beam_1 }}</td>
+      <td>{{ event.beam_2 }}</td>
+      <td>{{ event.beam_3 }}</td>
+      <td>{{ event.beam_4 }}</td>
+      <td>{{ event.beam_5 }}</td>
+      <td>{{ event.beam_1 + event.beam_2 + event.beam_3 + event.beam_4 + event.beam_5 }}</td>
+    {% endfor %}
+    </tr>
+</tbody>
+</table>
+
+<h4>Floor</h4>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Score 1</th>
+      <th scope="col">Score 2</th>
+      <th scope="col">Score 3</th>
+      <th scope="col">Score 4</th>
+      <th scope="col">Score 5</th>
+      <th scope="col">TOTAL</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+    {% for event in events %}
+      <td>{{ event.floor_1 }}</td>
+      <td>{{ event.floor_2 }}</td>
+      <td>{{ event.floor_3 }}</td>
+      <td>{{ event.floor_4 }}</td>
+      <td>{{ event.floor_5 }}</td>
+      <td class="">{{ event.floor_1 + event.floor_2 + event.floor_3 + event.floor_4 + event.floor_5 }}</td>
+    {% endfor %}
+    </tr>
+</tbody>
+</table>
+
+{% endblock body %}
