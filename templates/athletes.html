@@ -8,6 +8,7 @@
     <tr>
       <th scope="col">Level</th>
       <th scope="col">Name</th>
+      <th scope="col">Score Card</th>
       <th scope="col">Club</th>
     </tr>
   </thead>
@@ -16,6 +17,7 @@
     <tr>
       <th>{{ athlete.level }}</th>
       <td>{{ athlete.last_name }}, {{ athlete.first_name }}</td>
+      <td><a class="text-warning" href="/athlete/{{ athlete.id }}">View</a></td>
       <td>{{ athlete.club_id }}</td>
    </tr>
   {% endfor %}

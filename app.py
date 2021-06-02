@@ -1,8 +1,6 @@
-import os
 from flask import Flask, render_template, redirect, url_for, request, session, flash
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime, date, timedelta
-from uuid import uuid4
 import json
 import bcrypt
 
@@ -20,6 +18,14 @@ app.permanent_session_lifetime = timedelta(days=7)
 # -----------------------------------------------------------------------------
 # DB MODELS
 # -----------------------------------------------------------------------------
+class Roles(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    is_admin = db.Column(db.Boolean, nullable=False, default=False)
+    is_judge = db.Column(db.Boolean, nullable=False, default=False)
+    is_user = db.Column(db.Boolean, nullable=False, default=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     first_name = db.Column(db.String(255))
@@ -36,7 +42,7 @@ class Athlete(db.Model):
     first_name = db.Column(db.String(255))
     last_name = db.Column(db.String(255))
     gender = db.Column(db.String(255))
-    level =  db.Column(db.String(255))
+    level = db.Column(db.String(255))
     date_of_birth = db.Column(db.DateTime())
     phone = db.Column(db.String(255))
     mobile = db.Column(db.String(255))
@@ -47,12 +53,12 @@ class Athlete(db.Model):
 
 class Club(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    club =  db.Column(db.String(255))
+    club = db.Column(db.String(255))
     contact = db.Column(db.String(255))
     phone = db.Column(db.String(255))
     email = db.Column(db.String(255))
     website = db.Column(db.String(255))
-    address =  db.Column(db.String(255))
+    address = db.Column(db.String(255))
 
 
 class Competition(db.Model):
@@ -64,29 +70,29 @@ class Competition(db.Model):
 
 class Event(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    vault_1 = db.Column(db.Integer())
-    vault_2 = db.Column(db.Integer())
-    vault_3 = db.Column(db.Integer())
-    vault_4 = db.Column(db.Integer())
-    vault_5 = db.Column(db.Integer())
+    vault_1 = db.Column(db.Float())
+    vault_2 = db.Column(db.Float())
+    vault_3 = db.Column(db.Float())
+    vault_4 = db.Column(db.Float())
+    vault_5 = db.Column(db.Float())
     vault_comment = db.Column(db.String(255))
-    bars_1 = db.Column(db.Integer())
-    bars_2 = db.Column(db.Integer())
-    bars_3 = db.Column(db.Integer())
-    bars_4 = db.Column(db.Integer())
-    bars_5 = db.Column(db.Integer())
+    bars_1 = db.Column(db.Float())
+    bars_2 = db.Column(db.Float())
+    bars_3 = db.Column(db.Float())
+    bars_4 = db.Column(db.Float())
+    bars_5 = db.Column(db.Float())
     bars_comment = db.Column(db.String(255))
-    beam_1 = db.Column(db.Integer())
-    beam_2 = db.Column(db.Integer())
-    beam_3 = db.Column(db.Integer())
-    beam_4 = db.Column(db.Integer())
-    beam_5 = db.Column(db.Integer())
+    beam_1 = db.Column(db.Float())
+    beam_2 = db.Column(db.Float())
+    beam_3 = db.Column(db.Float())
+    beam_4 = db.Column(db.Float())
+    beam_5 = db.Column(db.Float())
     beam_comment = db.Column(db.String(255))
-    floor_1 = db.Column(db.Integer())
-    floor_2 = db.Column(db.Integer())
-    floor_3 = db.Column(db.Integer())
-    floor_4 = db.Column(db.Integer())
-    floor_5 = db.Column(db.Integer())
+    floor_1 = db.Column(db.Float())
+    floor_2 = db.Column(db.Float())
+    floor_3 = db.Column(db.Float())
+    floor_4 = db.Column(db.Float())
+    floor_5 = db.Column(db.Float())
     floor_comment = db.Column(db.String(255))
     athlete_id = db.Column(db.Integer, db.ForeignKey('athlete.id'))
     competition_id = db.Column(db.Integer, db.ForeignKey('competition.id'))
@@ -123,13 +129,11 @@ def athletes():
 def athlete(id):
     result = Athlete.query.get(id)
     events = Event.query.filter_by(athlete_id=id)
-    #vault_score = sum([x for x in events if x.isnumeric()])
 
     return render_template('athlete.html',
                            title='Results',
                            result=result,
-                           events=events)#,
-                           #vault_score=vault_score)
+                           events=events)
 
 
 # -----------------------------------------------------------------------------
@@ -205,11 +209,11 @@ def bootstrap_data():
 
     db.session.add(
         Event(
-            vault_1=25,
-            vault_2=25,
-            vault_3=25,
-            vault_4=25,
-            vault_5=25,
+            vault_1=24.9,
+            vault_2=24.8,
+            vault_3=24.7,
+            vault_4=24.6,
+            vault_5=24.5,
             vault_comment='little wobble on landing deducted',
             bars_1=24,
             bars_2=24,
