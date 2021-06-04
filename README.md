@@ -53,7 +53,14 @@ flask initdb
 or
 flask bootstrap
 ```
-to run the app
+to prepare the app to run create file config.json file 
+
+ex:
+[config.json ](config.json.sample)
+
+
+to run the app 
+
 ```
 python app.py
 ```

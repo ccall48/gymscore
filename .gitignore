@@ -149,3 +149,10 @@ dmypy.json
 
 # Cython debug symbols
 cython_debug/
+
+
+#scripts
+Scripts/
+
+#pyenv
+pyvenv.cfg
