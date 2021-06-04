@@ -55,7 +55,7 @@ flask bootstrap
 ```
 to prepare the app to run create file config.json file 
 example:
-[cpnfig.json example](config.json.sample)
+[config.json example](config.json.sample)
 
 
 to run the app 
