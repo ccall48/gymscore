@@ -54,8 +54,9 @@ or
 flask bootstrap
 ```
 to prepare the app to run create file config.json file 
-example:
-[a relative link](config.json.sample)
+
+ex:
+[config.json ](config.json.sample)
 
 
 to run the app 
