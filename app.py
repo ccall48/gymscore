@@ -115,8 +115,23 @@ def register():
 @app.route('/results')
 def results():
     #results =
-    return 'score'
+    
+    # 
+    return render_template('results.html',
+                            results=results)
 
+@app.route(('/submit_comment/<int:id>'), methods=['POST'])
+def submit_comment(id):
+    ...
+    # print(f"request returns: {request.data}")
+    # print(f"url is {request.url}")
+    # print(f"request returns: {request.form['comment']}")
+    print(f"submit comment : {request.form['comment']}")
+    value = request.form['comment']
+    # print(f"comment submitted {value}")
+    print("return to athlete page")
+    return redirect((url_for('athlete', id = id))
+)
 
 @app.route('/athletes')
 def athletes():
@@ -127,6 +142,7 @@ def athletes():
 
 @app.route('/athlete/<int:id>', methods=['GET'])
 def athlete(id):
+    print("direct to athlete page")
     result = Athlete.query.get(id)
     events = Event.query.filter_by(athlete_id=id)
 

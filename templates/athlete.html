@@ -101,10 +101,16 @@
       <td>{{ event.floor_3 }}</td>
       <td>{{ event.floor_4 }}</td>
       <td>{{ event.floor_5 }}</td>
+      
       <td class="">{{ event.floor_1 + event.floor_2 + event.floor_3 + event.floor_4 + event.floor_5 }}</td>
-    {% endfor %}
+
+      {% endfor %}
     </tr>
 </tbody>
 </table>
+<form action="{{ url_for('submit_comment', id=result.id)}}" method="post">
+<textarea name="comment"  placeholder="Enter comment here..."></textarea>
+<input type="submit" name = "comment" value = "comment">
+</form>
 
 {% endblock body %}
