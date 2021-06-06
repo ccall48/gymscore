@@ -59,6 +59,7 @@ class Club(db.Model):
     email = db.Column(db.String(255))
     website = db.Column(db.String(255))
     address = db.Column(db.String(255))
+    member = db.relationship('Athlete', backref='member', lazy='select')
 
 
 class Competition(db.Model):
@@ -114,7 +115,6 @@ def register():
 
 @app.route('/results')
 def results():
-    #results =
     return 'score'
 
 
@@ -125,15 +125,30 @@ def athletes():
                             athletes=athletes)
 
 
-@app.route('/athlete/<int:id>', methods=['GET'])
+@app.route('/athlete/<int:id>')
 def athlete(id):
     result = Athlete.query.get(id)
     events = Event.query.filter_by(athlete_id=id)
-
     return render_template('athlete.html',
                            title='Results',
                            result=result,
                            events=events)
+
+
+@app.route('/competitions')
+def competitions():
+    comps = Competition.query.all()
+    return render_template('competitions.html',
+                           comps=comps)
+
+
+@app.route('/competition/<int:id>')
+def competition(id):
+    comps = Competition.query.get(id)
+    if comps is not None:
+        return f'Competition: {comps.name}, In progress {comps.is_active}'
+    else:
+        return f'Invalid Competition Number {id}'
 
 
 # -----------------------------------------------------------------------------
@@ -160,37 +175,30 @@ def bootstrap_data():
     db.drop_all()
     db.create_all()
 
-    db.session.add(
-        User(
-            first_name='admin',
-            last_name='admin',
-            email='admin@example.com',
-            pw_hash=bcrypt.hashpw(b'1234', bcrypt.gensalt(10)),
-            is_admin=True,
-            is_judge=True,
-            is_user=True
-        )
-    )
+
+    admin = User(first_name='admin', last_name='admin', email='admin@example.com', pw_hash=bcrypt.hashpw(b'1234', bcrypt.gensalt(10)), is_admin=True, is_judge=True, is_user=True)
+    judge = User(first_name='judge', last_name='judge', email='admin@example.com', pw_hash=bcrypt.hashpw(b'1234', bcrypt.gensalt(10)), is_admin=False, is_judge=True, is_user=False)
+    user = User(first_name='user', last_name='user', email='admin@example.com', pw_hash=bcrypt.hashpw(b'1234', bcrypt.gensalt(10)), is_admin=False, is_judge=False, is_user=True)
+    db.session.add(admin)
+    db.session.add(judge)
+    db.session.add(user)
     db.session.commit()
 
-    db.session.add(
-        Club(
-            club ='Tamworth',
-            contact='john citizen',
-            phone='0267656565',
-            email='club@example.com',
-            website='https://tamworthgym.com.au',
-            address='Greg Norman Dr, Tamworth'
-        )
-    )
+    tamworth = Club(club='Tamworth Gymnastics', contact='john smith', phone='0267656565', email='club@example.com', website='https://gym.tamworth.com.au', address='greg norman dr, tamworth')
+    inverell = Club(club='Boys Club Inverell', contact='paul brown', phone='0267898989', email='club@example.com', website='https://gym.inverell.com.au', address='vivian street, inverell')
+    sydney = Club(club='Sydney Gymnastics', contact='roger white', phone='0297898999', email='club@example.com', website='https://gym.sydney.com.au', address='george Street, sydney')
+    #new_club = Club(club='', contact='', phone='', email='', website='', address='')
+    db.session.add(tamworth)
+    db.session.add(inverell)
+    db.session.add(sydney)
     db.session.commit()
 
     anne = Athlete(first_name='anne', last_name='smith', gender='female', level='1', date_of_birth=date(2014, 1, 14), phone='0267622622', mobile='0418335555', address='85 Garden Street, Tamworth', club_id=1)
     mary = Athlete(first_name='mary', last_name='lou', gender='female', level='1', date_of_birth=date(2014, 4, 23), phone='0267622888', mobile='0402335555', address='835 Peel Street, Tamworth', club_id=1)
-    rose = Athlete(first_name='rose', last_name='brown', gender='female', level='1', date_of_birth=date(2015, 6, 18), phone='0267622444', mobile='0418356740', address='43 Wattle Drive, Tamworth', club_id=1)
+    rose = Athlete(first_name='rose', last_name='brown', gender='female', level='1', date_of_birth=date(2015, 6, 18), phone='0267622444', mobile='0418356740', address='43 Wattle Drive, Sydney', club_id=3)
     eve = Athlete(first_name='eve', last_name='thompson', gender='female', level='1', date_of_birth=date(2014, 12, 29), phone='0267622228', mobile='0402334444', address='335 Noondah Cres, Tamworth', club_id=1)
-    peter = Athlete(first_name='peter', last_name='parker', gender='male', level='1', date_of_birth=date(2013, 11, 17), phone='0267621111', mobile='0418234400', address='401 Gunnedah Road, Tamworth', club_id=1)
-
+    peter = Athlete(first_name='peter', last_name='parker', gender='male', level='1', date_of_birth=date(2013, 11, 17), phone='0267621111', mobile='0418234400', address='401 Gunnedah Road, Inverell', club_id=2)
+    #new_athlete = Athlete(first_name='', last_name='', gender='', level='', date_of_birth=date(YYYY, M, D), phone='', mobile='', address='', club_id=)
     db.session.add(anne)
     db.session.add(mary)
     db.session.add(rose)
@@ -198,13 +206,12 @@ def bootstrap_data():
     db.session.add(peter)
     db.session.commit()
 
-    db.session.add(
-        Competition(
-            name='Test Competition One',
-            sponsor='NICU',
-            is_active=True
-        )
-    )
+    comp_1 = Competition(name='Test Competition One',sponsor='NICU',is_active=True)
+    comp_2 = Competition(name='Test Competition Two',sponsor='ANZ Bank',is_active=False)
+    comp_3 = Competition(name='Test Competition Three',sponsor='XYZ Motors',is_active=False)
+    db.session.add(comp_1)
+    db.session.add(comp_2)
+    db.session.add(comp_3)
     db.session.commit()
 
     db.session.add(
@@ -215,23 +222,23 @@ def bootstrap_data():
             vault_4=24.6,
             vault_5=24.5,
             vault_comment='little wobble on landing deducted',
-            bars_1=24,
-            bars_2=24,
-            bars_3=24,
-            bars_4=24,
-            bars_5=24,
+            bars_1=24.5,
+            bars_2=24.4,
+            bars_3=24.3,
+            bars_4=24.2,
+            bars_5=24.1,
             bars_comment='slipped on second change marked down',
-            beam_1=23,
-            beam_2=23,
-            beam_3=23,
-            beam_4=23,
-            beam_5=23,
+            beam_1=23.1,
+            beam_2=23.3,
+            beam_3=23.2,
+            beam_4=23.5,
+            beam_5=23.4,
             beam_comment='great performance',
-            floor_1=22,
-            floor_2=22,
-            floor_3=22,
-            floor_4=22,
-            floor_5=22,
+            floor_1=22.9,
+            floor_2=22.7,
+            floor_3=22.8,
+            floor_4=22.6,
+            floor_5=22.5,
             floor_comment='need to hold longer on presentation',
             athlete_id=1,
             competition_id=1

@@ -17,19 +17,20 @@
   </thead>
   <tbody>
     <tr>
-    {% for event in events %}
+{% for event in events %}
       <td>{{ event.vault_1 }}</td>
       <td>{{ event.vault_2 }}</td>
       <td>{{ event.vault_3 }}</td>
       <td>{{ event.vault_4 }}</td>
       <td>{{ event.vault_5 }}</td>
       <td>{{ event.vault_1 + event.vault_2 + event.vault_3 + event.vault_4 + event.vault_5 }}</td>
-    {% endfor %}
     </tr>
 </tbody>
 </table>
+<small>{{ event.vault_comment | capitalize }}</small>
+{% endfor %}
 
-<h4>Bars</h4>
+<h4 class="mt-4">Bars</h4>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -43,19 +44,20 @@
   </thead>
   <tbody>
     <tr>
-    {% for event in events %}
+{% for event in events %}
       <td>{{ event.bars_1 }}</td>
       <td>{{ event.bars_2 }}</td>
       <td>{{ event.bars_3 }}</td>
       <td>{{ event.bars_4 }}</td>
       <td>{{ event.bars_5 }}</td>
       <td>{{ event.bars_1 + event.bars_2 + event.bars_3 + event.bars_4 + event.bars_5 }}</td>
-    {% endfor %}
     </tr>
 </tbody>
 </table>
+<small>{{ event.bars_comment | capitalize }}</small>
+{% endfor %}
 
-<h4>Beam</h4>
+<h4 class="mt-4">Beam</h4>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -69,19 +71,20 @@
   </thead>
   <tbody>
     <tr>
-    {% for event in events %}
+{% for event in events %}
       <td>{{ event.beam_1 }}</td>
       <td>{{ event.beam_2 }}</td>
       <td>{{ event.beam_3 }}</td>
       <td>{{ event.beam_4 }}</td>
       <td>{{ event.beam_5 }}</td>
       <td>{{ event.beam_1 + event.beam_2 + event.beam_3 + event.beam_4 + event.beam_5 }}</td>
-    {% endfor %}
     </tr>
 </tbody>
 </table>
+<small>{{ event.beam_comment | capitalize }}</small>
+{% endfor %}
 
-<h4>Floor</h4>
+<h4 class="mt-4">Floor</h4>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -101,10 +104,11 @@
       <td>{{ event.floor_3 }}</td>
       <td>{{ event.floor_4 }}</td>
       <td>{{ event.floor_5 }}</td>
-      <td class="">{{ event.floor_1 + event.floor_2 + event.floor_3 + event.floor_4 + event.floor_5 }}</td>
-    {% endfor %}
+      <td>{{ event.floor_1 + event.floor_2 + event.floor_3 + event.floor_4 + event.floor_5 }}</td>
     </tr>
 </tbody>
 </table>
+<small>{{ event.floor_comment | capitalize }}</small>
+{% endfor %}
 
 {% endblock body %}

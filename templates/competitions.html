@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+{% block title %} {{ title }} {% endblock title %}
+{% block body %}
+
+{% if comps > 2 %}
+    {% for comp in comps %}
+        Comp ID: {{ comp.id }}<br />
+        Comp Name: {{ comp.name }}<br />
+        Comp Sponsor: {{ comp.sponsor }}<br />
+        Active: {{ comp.is_active }}
+    {% endfor %}
+{% else %}
+    Comp ID: {{ comps.id }}<br />
+    Comp Name: {{ comps.name }}<br />
+    Comp Sponsor: {{ comps.sponsor }}<br />
+    Active: {{ comps.is_active }}
+{% endif %}
+
+{% endblock body %}
